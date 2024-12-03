@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 17:18:35 by arbaudou          #+#    #+#             */
-/*   Updated: 2024/11/30 22:03:25 by arbaudou         ###   ########.fr       */
+/*   Updated: 2024/12/03 13:03:46 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	char_form(const char c, va_list args)
 	if (c == 'i' || c == 'd')
 		len = ft_putinbr(va_arg(args, int));
 	if (c == 'u')
-		len = ft_putnbr_base(va_arg(args, long), BASE_TEN);
+		len = ft_putlnbr(va_arg(args, long));
 	if (c == '%')
 		len = ft_putchar('%');
 	if (c == 'x')
@@ -31,7 +31,7 @@ static int	char_form(const char c, va_list args)
 	if (c == 'X')
 		len = ft_putnbr_base(va_arg(args, unsigned int), UHEXBASE);
 	if (c == 'p')
-		len = ft_putadrr_base(va_arg(args, void *), LHEXBASE);
+		len = ft_putadrr_base(va_arg(args, unsigned int), LHEXBASE);
 	return (len);
 }
 
@@ -61,3 +61,34 @@ int	ft_printf(const char *format, ...)
 	va_end (args);
 	return (len);
 }
+
+// #include <stdio.h>
+// int main() 
+// {
+//     char *str = "Bonjour";
+//     void *ptr = &str;
+// 	int len = 0;
+
+// 	// ft_printf(" %s  \n", "");
+//     // ft_printf("Bonjour %s, il est %u%% vous avez %i messages et il reste %d part de pizza. %c%c%c\n", "Alice", 4, -124567, 1,"A", "B", "C");
+
+// 	// len = ft_printf("Bonjour %s, %cl est %u%% vous avez %i messages et il reste %d part de pizza. %c %c %c\n", "Alice", 'i', 4, -124567, 1,'A', 'B', 'C');
+// 	// ft_printf("%u\n", len);
+// 	// len = ft_printf("%i\n", 89846);
+// 	// ft_printf("%u\n", len);
+// 	// len = ft_printf("hriuhhzher%i____%s\n", 25426, "Hello world");
+// 	// ft_printf("%u\n", len);
+// 	// len = ft_printf("Bonjour nombre en base 16 l 154647646 : %x\n", 15467646);
+// 	// ft_printf("%u\n", len);
+// 	// len = ft_printf("Bonjour nombre en base 16 u 154647646 : %X\n", 15467646);
+// 	// ft_printf("%u\n", len);
+// 	// len = ft_printf("%p\n", ptr);
+// 	// ft_printf("%u\n", len);
+// 	len = ft_printf("%s%s%s%s%s", "", "", "", "", "");
+// 	ft_printf("%u\n", len);
+
+// 	// len = ft_printf("%c\n", '5');
+// 	// ft_printf("%d\n", len);
+
+// 	return 0;
+// }

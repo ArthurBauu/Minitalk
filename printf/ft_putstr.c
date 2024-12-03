@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 19:12:32 by arbaudou          #+#    #+#             */
-/*   Updated: 2024/11/30 22:02:44 by arbaudou         ###   ########.fr       */
+/*   Updated: 2024/12/03 13:05:23 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	ft_putchar(int c)
 {
+	if (!c)
+		write(1, "(null)", 6);
 	write(1, &c, 1);
 	return (1);
 }

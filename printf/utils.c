@@ -1,33 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putinbr.c                                       :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/22 19:13:06 by arbaudou          #+#    #+#             */
-/*   Updated: 2024/12/03 14:16:08 by arbaudou         ###   ########.fr       */
+/*   Created: 2024/11/22 17:18:41 by arbaudou          #+#    #+#             */
+/*   Updated: 2024/12/03 13:03:23 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_putinbr(int nb)
+int	ft_strplen(char *str)
 {
-	long	l;
-	int		len;
+	size_t	i;
 
-	if (!nb)
-		return (ft_putchar('0'));
-	l = nb;
-	len = 0;
-	if (l < 0)
-	{
-		len += ft_putchar('-');
-		l = -l;
-	}
-	if (l >= 10)
-		len += ft_putinbr(l / 10);
-	len += ft_putchar((l % 10) + '0');
-	return (len);
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i])
+		i++;
+	return (i);
 }

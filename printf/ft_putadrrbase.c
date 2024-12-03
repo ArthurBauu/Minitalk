@@ -6,27 +6,33 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 21:23:34 by arbaudou          #+#    #+#             */
-/*   Updated: 2024/11/30 22:03:13 by arbaudou         ###   ########.fr       */
+/*   Updated: 2024/12/03 13:04:09 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_putadrr_base(void *n, char *base)
+int	ft_putadrr_base(unsigned int nbr, char *base)
 {
-	unsigned int		size;
-	int					len;
-	unsigned long long	nbr;
+	unsigned int	size;
+	int				num1;
+	int				num2;
+	int				len;
 
-	if (!n)
-		return (ft_putstr("(nil)"));
-	size = ft_strplen(base);
+	if (!nbr || !base)
+		return (ft_putchar('0'));
 	len = 0;
-	nbr = (unsigned long long)n;
+	size = ft_strplen(base);
+	ft_putstr("0x");
+	len += 2;
 	if (nbr >= size)
-		len += ft_putadrr_base((void *)(nbr / size), base);
-	if (len == 0)
-		len += ft_putstr("0x");
-	len += write(1, &base[nbr % size], 1);
+	{
+		num1 = nbr / size;
+		len += ft_putnbr_base((num1), base);
+		num2 = nbr % size;
+		len += ft_putnbr_base(num2, base);
+	}
+	else if (nbr < size)
+		len += ft_putchar(base[nbr]);
 	return (len);
 }

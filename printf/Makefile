@@ -1,9 +1,9 @@
 NAME = libftprintf.a
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fPIC
 
-SRCS = ft_printf.c ft_putadrrbase.c ft_putnbr_base.c ft_putinbr.c ft_putstr.c ft_strplen.c
+SRCS = ft_printf.c ft_putadrrbase.c ft_putnbr_base.c ft_putlnbr.c ft_putinbr.c ft_putstr.c utils.c
 OBJS = $(SRCS:.c=.o)
 
 $(NAME): $(OBJS)
