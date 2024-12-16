@@ -1,4 +1,4 @@
-SOURCES = server.c client.c
+SOURCES = utils.c server.c client.c 
 OBJECTS = $(SOURCES:.c=.o)
 
 CC = gcc
@@ -14,11 +14,11 @@ all: server client
 
 bonus: server client
 
-server: server.o $(LIBFT) $(PRINTF)
-	$(CC) -o $@ $< -L$(LIBFT_DIR) -lft -L$(PRINTF_DIR) -lftprintf
+server: server.o utils.o $(LIBFT) $(PRINTF) 
+	$(CC) -o $@ server.o utils.o $(LIBFT) $(PRINTF) -L$(LIBFT_DIR) -lft -L$(PRINTF_DIR) -lftprintf
 
-client: client.o $(LIBFT) $(PRINTF)
-	$(CC) -o $@ $< -L$(LIBFT_DIR) -lft -L$(PRINTF_DIR) -lftprintf
+client: client.o utils.o $(LIBFT) $(PRINTF)
+	$(CC) -o $@ client.o utils.o $(LIBFT) $(PRINTF) -L$(LIBFT_DIR) -lft -L$(PRINTF_DIR) -lftprintf
 
 %.o: %.c
 	$(CC) -c $(CFLAGS) $<

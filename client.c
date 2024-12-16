@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 19:02:57 by arbaudou          #+#    #+#             */
-/*   Updated: 2024/12/03 15:29:53 by arbaudou         ###   ########.fr       */
+/*   Updated: 2024/12/16 16:51:53 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,35 @@
 #include "minitalk.h"
 #include <unistd.h>
 
-void	retour(int sig)
+volatile sig_atomic_t	g_bit_sent = 0;
+
+void	retour(int sig, siginfo_t *info, void *context)
 {
-	(void)sig;
-	ft_printf("Message bien recu par le server.\n");
+	(void)info;
+	(void)context;
+	if (sig == SIGUSR1)
+		g_bit_sent = 1;
+	else if (sig == SIGUSR2)
+		ft_printf("Well received");
 }
 
-void	send_c(pid_t c_pid, char c)
+void	send_c(int c_pid, char *c_bits)
 {
 	int	i;
 
 	i = 0;
-	while (i < 8)
+	while (c_bits[i])
 	{
-		if ((c >> i) & 1)
-			kill(c_pid, SIGUSR2);
-		else
+		g_bit_sent = 0;
+		if (c_bits[i] == '1')
 			kill(c_pid, SIGUSR1);
+		else
+			kill(c_pid, SIGUSR2);
+		while (!g_bit_sent)
+			pause();
 		i++;
-		usleep(100);
 	}
+	free(c_bits);
 }
 
 void	send_s(pid_t c_pid, char *str)
@@ -41,35 +50,32 @@ void	send_s(pid_t c_pid, char *str)
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (i <= ft_strlen(str))
 	{
-		send_c(c_pid, str[i]);
+		send_c(c_pid, char_to_bit(str[i]));
 		i++;
 	}
-	send_c(c_pid, '\0');
 }
 
 int	main(int argc, char **argv)
 {
-	struct sigaction	sa;
-	int					c_pid;
-
 	if (argc != 3)
 	{
 		ft_printf("Usage: ./client [SERVER_PID] [MESSAGE]\n");
-		return (0);
+		return (1);
 	}
-	c_pid = atoi(argv[1]);
-	if (c_pid <= 0)
+	if (!argv[2] || argv[2][0] == '\0')
+	{
+		ft_printf("ERROR: message empty\n");
+		return (1);
+	}
+	if (ft_atoi(argv[1]) <= 0 || kill(ft_atoi(argv[1]), 0))
 	{
 		ft_printf("ERROR: invalid PID\n");
-		return (0);
+		return (1);
 	}
 	ft_printf("__PID: %d\n", getpid());
-	sa.sa_handler = &retour;
-	sa.sa_flags = 0;
-	sigemptyset(&sa.sa_mask);
-	sigaction(SIGUSR1, &sa, NULL);
-	send_s(c_pid, argv[2]);
+	set_signal(retour);
+	send_s(ft_atoi(argv[1]), argv[2]);
 	return (0);
 }

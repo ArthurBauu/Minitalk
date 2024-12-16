@@ -1,32 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putadrrbase.c                                   :+:      :+:    :+:   */
+/*   ft_strplen.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/23 21:23:34 by arbaudou          #+#    #+#             */
-/*   Updated: 2024/11/30 22:03:13 by arbaudou         ###   ########.fr       */
+/*   Created: 2024/11/30 22:02:13 by arbaudou          #+#    #+#             */
+/*   Updated: 2024/11/30 23:09:41 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_putadrr_base(void *n, char *base)
+int	ft_strplen(char const *s)
 {
-	unsigned int		size;
-	int					len;
-	unsigned long long	nbr;
+	size_t	size;
 
-	if (!n)
-		return (ft_putstr("(nil)"));
-	size = ft_strplen(base);
-	len = 0;
-	nbr = (unsigned long long)n;
-	if (nbr >= size)
-		len += ft_putadrr_base((void *)(nbr / size), base);
-	if (len == 0)
-		len += ft_putstr("0x");
-	len += write(1, &base[nbr % size], 1);
-	return (len);
+	size = 0;
+	while (s[size])
+		size++;
+	return (size);
 }
